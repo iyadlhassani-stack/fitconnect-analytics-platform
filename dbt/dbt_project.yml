@@ -1,0 +1,17 @@
+name: fitconnect_analytics
+version: "1.0.0"
+config-version: 2
+
+profile: fitconnect_analytics
+
+model-paths:
+  - models
+
+models:
+  fitconnect_analytics:
+    staging:
+      +schema: analytics
+      +materialized: view
+    marts:
+      +schema: analytics
+      +materialized: view
