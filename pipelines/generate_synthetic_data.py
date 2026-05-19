@@ -205,6 +205,63 @@ def generate_events(users: pd.DataFrame) -> pd.DataFrame:
 
     return pd.DataFrame(events)
 
+    
+
+
+def generate_subscriptions(users: pd.DataFrame) -> pd.DataFrame:
+    subscriptions = []
+
+    cancel_reasons = [
+        "too_expensive",
+        "not_using_enough",
+        "missing_features",
+        "switched_to_competitor",
+        "temporary_pause",
+    ]
+
+    for index, user in users.iterrows():
+        if not bool(user["is_premium"]):
+            continue
+
+        signup_date = pd.to_datetime(user["signup_date"]).date()
+        trial_started_at = signup_date
+        converted_at = trial_started_at + timedelta(days=14)
+
+        billing_period = random.choices(["monthly", "annual"], weights=[78, 22])[0]
+        monthly_amount = 4.99 if billing_period == "monthly" else round(39.99 / 12, 2)
+        plan = "premium_monthly" if billing_period == "monthly" else "premium_annual"
+
+        cancelled = random.random() < 0.18
+        cancelled_at = None
+        ended_at = None
+        cancel_reason = None
+        status = "active"
+
+        if cancelled:
+            cancelled_at = converted_at + timedelta(days=random.randint(20, 220))
+            ended_at = cancelled_at
+            cancel_reason = random.choice(cancel_reasons)
+            status = "cancelled"
+
+        subscriptions.append(
+            {
+                "subscription_id": f"sub_{index + 1:05d}",
+                "user_id": user["user_id"],
+                "plan": plan,
+                "status": status,
+                "started_at": converted_at,
+                "ended_at": ended_at,
+                "monthly_amount_eur": monthly_amount,
+                "billing_period": billing_period,
+                "trial_started_at": trial_started_at,
+                "converted_at": converted_at,
+                "cancelled_at": cancelled_at,
+                "cancel_reason": cancel_reason,
+            }
+        )
+
+    return pd.DataFrame(subscriptions)
+
 
 def main() -> None:
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -215,14 +272,16 @@ def main() -> None:
     events = generate_events(users)
     events.to_csv(RAW_DATA_DIR / "raw_events.csv", index=False)
 
+    subscriptions = generate_subscriptions(users)
+    subscriptions.to_csv(RAW_DATA_DIR / "raw_subscriptions.csv", index=False)
+
     print(f"Generated {len(users)} users")
     print(f"Wrote {RAW_DATA_DIR / 'raw_users.csv'}")
     print(f"Generated {len(events)} events")
     print(f"Wrote {RAW_DATA_DIR / 'raw_events.csv'}")
-
-    
+    print(f"Generated {len(subscriptions)} subscriptions")
+    print(f"Wrote {RAW_DATA_DIR / 'raw_subscriptions.csv'}")
 
 
 if __name__ == "__main__":
     main()
-
