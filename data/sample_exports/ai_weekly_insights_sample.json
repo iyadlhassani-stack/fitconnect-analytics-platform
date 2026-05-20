@@ -1,0 +1,20 @@
+{
+  "anomalies": [
+    "DAU is 0 despite having 246 MAU and 183 WAU, indicating a critical data collection or system issue",
+    "Walk routes generated (3685) significantly exceed walks completed (1528), suggesting low route utilization",
+    "High AI message volume (14638) relative to user base may indicate over-engagement or spam issues"
+  ],
+  "next_actions": [
+    "Emergency investigation of DAU tracking system and data pipeline",
+    "Conduct user survey on walk route preferences and completion barriers",
+    "Review AI messaging frequency and content relevance",
+    "Implement daily monitoring dashboard to prevent future metric anomalies"
+  ],
+  "recommendations": [
+    "Investigate and fix the DAU tracking system immediately as this is a critical metric failure",
+    "Improve walk route recommendation algorithm to increase completion rates from generated routes",
+    "Analyze AI message patterns to ensure they provide value and aren't overwhelming users",
+    "Leverage the strong premium conversion rate (22%) to focus on user acquisition strategies"
+  ],
+  "summary": "FitConnect shows strong user engagement with 246 MAU out of 1000 total users and healthy premium conversion at 22%. However, the critical anomaly of 0 DAU suggests a significant data collection or platform issue that requires immediate attention."
+}
