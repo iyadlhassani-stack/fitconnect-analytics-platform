@@ -1,0 +1,9 @@
+services:
+  api:
+    build: .
+    container_name: fitconnect-analytics-api
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+  
