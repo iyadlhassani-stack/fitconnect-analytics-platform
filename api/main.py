@@ -10,6 +10,14 @@ app = FastAPI(
     description="Analytics API for FitConnect Hub product metrics and AI insights.",
 )
 
+@app.get("/")
+def root() -> dict[str, str]:
+    return {
+        "service": "FitConnect Analytics Platform API",
+        "status": "running",
+        "docs": "/docs",
+    }
+
 app.include_router(health_router)
 app.include_router(kpis_router)
 app.include_router(insights_router)
