@@ -5,3 +5,6 @@ __pycache__/
 .venv/
 data/raw/*.csv
 data/processed/*.csv
+dbt/logs/
+dbt/target/
+logs/
